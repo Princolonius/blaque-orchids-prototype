@@ -104,94 +104,86 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  if (document.getElementById('grid')) {
+  if (document.getElementById('gallery-categories')) {
 
     const categoryLabels = {
       construction: 'Construction',
       facility: 'Facility Maintenance',
-      logistics: 'Logistics & Retail',
     };
-  
-    const grid = document.getElementById('grid');
-    const empty = document.getElementById('empty');
-  
-    // Load images from manifest
-    fetch('gallery.json')
-      .then(res => res.json())
-      .then(data => {
-        Object.entries(data).forEach(([cat, files]) => {
-          files.forEach(filename => {
-            const label = categoryLabels[cat];
-            const div = document.createElement('div');
-            div.className = 'gallery-item';
-            div.dataset.cat = cat;
-            div.innerHTML = `
-              <img src="assets/img/gallery/${cat}/${filename}" alt="${label} photo" />
-              <span class="cat-badge">${label}</span>
-            `;
-            grid.appendChild(div);
-          });
-        });
-  
-        attachLightbox();
-      });
-  
-    // Gallery filter
-    const btns = document.querySelectorAll('.filter-btn');
-  
-    btns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        btns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-  
-        const cat = btn.dataset.cat;
-        let visible = 0;
-  
-        document.querySelectorAll('.gallery-item').forEach(item => {
-          const match = cat === 'all' || item.dataset.cat === cat;
-          item.classList.toggle('hidden', !match);
-          if (match) visible++;
-        });
-  
-        empty.style.display = visible === 0 ? 'block' : 'none';
-      });
-    });
-  
-    // Lightbox
+
+    const categoryOrder = ['construction', 'facility'];
+    const container = document.getElementById('gallery-categories');
+
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
     const lightboxClose = document.getElementById('lightbox-close');
-  
+
+    fetch('gallery.json')
+      .then(res => res.json())
+      .then(data => {
+        categoryOrder.forEach(cat => {
+          const files = data[cat];
+          if (!files || !files.length) return;
+
+          const label = categoryLabels[cat] || cat;
+          const section = document.createElement('section');
+          section.className = 'gallery-category';
+          section.id = `gallery-${cat}`;
+
+          const heading = document.createElement('h2');
+          heading.className = 'gallery-category-title';
+          heading.textContent = label;
+
+          const grid = document.createElement('div');
+          grid.className = 'gallery-grid';
+
+          files.forEach(filename => {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            div.innerHTML = `
+              <img src="assets/img/gallery/${cat}/${filename}" alt="${label} photo" loading="lazy" />
+            `;
+            grid.appendChild(div);
+          });
+
+          section.appendChild(heading);
+          section.appendChild(grid);
+          container.appendChild(section);
+        });
+
+        attachLightbox();
+      });
+
     function attachLightbox() {
       document.querySelectorAll('.gallery-item').forEach(item => {
         item.addEventListener('click', () => {
           const img = item.querySelector('img');
-          const badge = item.querySelector('.cat-badge');
+          const categoryTitle = item.closest('.gallery-category')?.querySelector('.gallery-category-title');
           lightboxImg.src = img.src;
           lightboxImg.alt = img.alt;
-          lightboxCaption.textContent = badge ? badge.textContent : '';
+          lightboxCaption.textContent = categoryTitle ? categoryTitle.textContent : '';
           lightbox.classList.add('active');
           document.body.style.overflow = 'hidden';
         });
       });
     }
-  
+
     lightboxClose.addEventListener('click', closeLightbox);
-  
+
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) closeLightbox();
     });
-  
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeLightbox();
     });
-  
+
     function closeLightbox() {
       lightbox.classList.remove('active');
       document.body.style.overflow = '';
     }
-  
+
   }
 
 

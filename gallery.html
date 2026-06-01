@@ -90,7 +90,6 @@
             <ul>
               <li><a href="construction.html">Construction & Civil Works</a></li>
               <li><a href="maintenance.html">Facility Maintenance Solutions</a></li>
-              <li><a href="logistics-reatail.html">Secure Logistics & Courier</a></li>
               <li><a href="risk-security.html">Risk & Security Systems</a></li>
             </ul>
           <li class="dropdown"><a href="#"><span>Projects</span> <i
@@ -110,7 +109,9 @@
     </div>
   </header><!-- End Header -->
 
-  <section id="hero-animated" class="hero-animated d-flex align-items-center">
+  <!-- Change hero background: update the image path in --hero-bg below -->
+  <section id="hero-animated" class="hero-animated d-flex align-items-center"
+    style="--hero-bg: url('/assets/img/gallery/photos/photos-2.jpeg');">
     <div class="container" data-aos="zoom-out">
       <div class="row align-items-center">
         <div class="col-lg-6">
@@ -118,7 +119,7 @@
         </div>
           <div class="col-lg-6">
             <h2 class="text-black">Browse through a selection of projects delivered by Blaque Orchids Group 
-              across construction, facility maintenance, and logistics.</h2>
+              across construction and facility maintenance.</h2>
           </div>
         </div>
       </div>
@@ -131,22 +132,10 @@
 
       <div class="gallery-header">
         <h1>Our Project Gallery</h1>
-        <p>A look at our work across construction, facility maintenance, and logistics.</p>
+        <p>A look at our work across construction and facility maintenance.</p>
       </div>
-    
-      <div class="filter-bar">
-        <button class="filter-btn active" data-cat="all">All</button>
-        <button class="filter-btn" data-cat="construction">Construction</button>
-        <button class="filter-btn" data-cat="facility">Facility Maintenance</button>
-        <button class="filter-btn" data-cat="logistics">Logistics</button>
-        <!-- <button class="filter-btn" data-cat="logistics">Logistics &amp; Retail</button> -->
-      </div>
-    
-      <div class="gallery-grid" id="grid">
-    
-      </div>
-    
-      <p class="empty-state" id="empty">No photos in this category yet.</p>
+
+      <div id="gallery-categories"></div>
 
       <div class="lightbox-overlay" id="lightbox">
         <button class="lightbox-close" id="lightbox-close">&times;</button>
