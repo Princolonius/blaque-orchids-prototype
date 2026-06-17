@@ -128,7 +128,13 @@ text-align: left;
 section {
   padding: 40px 0;
   overflow: hidden;
-  background-color:whitesmoke;
+  background-color: whitesmoke;
+}
+
+section.hero-static,
+section.hero-animated,
+section.hero-fullscreen {
+  background-color: transparent;
 }
 .section-bg{
 background-color: #000;
@@ -628,7 +634,7 @@ background-color: #000;
   width: 100%;
   margin-top: -120px;
   min-height: 50vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), var(--hero-bg, url("../img/bgp.jpg")) center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), var(--hero-bg, url('assets/img/gallery/photos/photos-1.jpeg')) center center;
   background-size: cover;
   padding: 170px 0px 60px;
   overflow: hidden;
@@ -800,7 +806,7 @@ background-color: #000;
   width: 100%;
   padding: 0;
   background: var(--color-black);
-  background-image: url("../img/hero-bg.png") center center;
+  background-image: url("/assets/img/gallery/photos/photos-1.jpeg") center center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -994,7 +1000,7 @@ background-color: #000;
 .hero-fullscreen {
   width: 100%;
   min-height: 100vh;
-  background: url("../img/hero-fullscreen-bg.jpg") center center;
+  background: url("/assets/img/gallery/photos/photos-1.jpeg") center center;
   background-size: cover;
   position: relative;
   padding: 120px 0 60px;
@@ -1094,10 +1100,10 @@ background-color: #000;
 --------------------------------------------------------------*/
 .hero-static {
   width: 100%;
-  min-height: 30%;
+  min-height: 85vh;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    var(--hero-bg-image, url("../img/gallery/construction/construction-59.jpg"));
+    var(--hero-bg-image, url("/assets/img/gallery/photos/photos-1.jpeg"));
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1202,7 +1208,7 @@ background-color: #000;
   position: relative;
   background-color: #000000;
   background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-    var(--hero-bg, url("../img/gallery/construction/construction-62.JPG")) center center;
+    var(--hero-bg, url("../img/gallery/construction/construction-62.jpg")) center center;
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -1396,7 +1402,7 @@ background-color: #000;
 
 .hero-static .service-item:hover {
   transform: translateY(-10px);
-  box-shadow: 0px 0 60px 0 rgba(var(--color-secondary), 0.1);
+  box-shadow: 0px 0 40px 0 var(--color-primary);
 }
 
 .hero-static .hero-image-card img {
@@ -1470,16 +1476,18 @@ background-color: #000;
   margin: 60px 0 0 60px;
 }
 .about .smokedbg{
+  font-size: 18px;
   padding: 15px;
   border-radius: 15px;
   background-color: rgb(230, 230, 230);
   box-shadow: 10px 10px 20px rgba(255, 255, 255, 1);
+  height:250px;
 }
 .mvs-hover:hover{
-  background-color: rgba(52, 52, 52, 0.5);
+  background-color: black;
   transition: .3s;
   color: #fff;
-  box-shadow: 0px 0px 10px rgba(255, 165, 0, 1);
+  box-shadow: 0px 0px 10px var(--color-primary);
 }
 .accreditations{
 margin: 10px;
@@ -1530,6 +1538,14 @@ text-align: center;
   margin-bottom: 5px;
   color:var(--primary_col);
   margin-top: 5px; 
+}
+
+.about .section-header p {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-top: 5px; 
+  color:var(--primary_col); 
 }
 
 .about h3 {
@@ -1983,14 +1999,24 @@ text-align: center;
   border-radius: 15px;
   overflow: hidden;
 }
+
+.services .img:hover {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px var(--primary_col);
+  transition: 0.6s;
+}
+
 .service-black{
   background-color: #000!important;
 }
+
 .service-black .readmore{
   background: none;
   color: white;
   border:var(--primary_col) 1px solid;
 }
+
 .service-black .readmore:hover{
   border: #fff solid 1px;
   background: var(--primary_col);
@@ -2038,13 +2064,25 @@ text-align: center;
   left: calc(50% - 36px);
   border: 6px solid var(--color-white);
 }
+
 .services .service-details{
   padding: 13px;
   border-radius: 15px;
-  box-shadow: 0px 0px 10px rgba(255, 165, 0, 1);
+  box-shadow: 0px 0px 10px var(--primary_col);
   text-align: left;
   margin-bottom: 15px;
 }
+
+.services .service-details:hover{
+  padding: 13px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px white;
+  text-align: left;
+  margin-bottom: 15px;
+  background: var(--primary_col);
+  transition: 0.6s;
+}
+
 
 .services .service-details p{
   color: #fff;
@@ -2104,6 +2142,12 @@ text-align: center;
   color: var(--primary_col);
   font-size: 40px;
 }
+
+.companies .section-header p{
+  font-size: 18px;
+  font-weight: 600px;
+}
+
 .companies .company{
   padding: 15px;
   border-radius: 15px;
@@ -2123,8 +2167,8 @@ text-align: center;
 
 .companies .company:hover{
   background-color: rgba(52, 52, 52, 0.5);
-  transition: .3s;
-  box-shadow: 0px 0px 10px rgba(255, 165, 0, 1);
+  box-shadow: 0px 0px 10px var(--color-primary);
+  transition: ease-in-out 0.3s;
 }
 .companies .company .readmore{
   background: none;
@@ -2133,6 +2177,7 @@ text-align: center;
 }
 .companies .company .readmore:hover{
   border: #fff solid 1px;
+  background: var(--color-primary);
 }
 .companies .company img{
   border-radius: 15px;
