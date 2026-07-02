@@ -296,8 +296,23 @@ background-color: #000;
 }
 
 .header .logo img {
-  max-height: 70px;
+  max-height: 100px;
+  max-width: 200px;
   margin-right: 6px;
+}
+
+.header .logo-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.header .logo-tagline {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #000;
+  white-space: wrap;
 }
 
 .header .logo h1 {
@@ -369,8 +384,8 @@ background-color: #000;
     justify-content: space-between;
     padding: 14px 20px;
     font-family: var(--font-secondary);
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 22px;
+    font-weight: 600;
     color: #000;
     white-space: nowrap;
     transition: 0.3s;
@@ -1481,7 +1496,40 @@ background-color: #000;
   border-radius: 15px;
   background-color: rgb(230, 230, 230);
   box-shadow: 10px 10px 20px rgba(255, 255, 255, 1);
-  height:250px;
+  height:350px;
+}
+.about .smokedbg .icon-badge {
+  display: block;
+  font-size: 36px;
+  color: var(--primary_col);
+  margin-bottom: 12px;
+}
+.about .smokedbg.mvs-hover:hover .icon-badge {
+  color: #fff;
+}
+.about .smokedbg.smokedbg-sm {
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.btn-cta {
+  font-size: 16px;
+  font-weight: 400;
+  display: inline-block;
+  padding: 10px 28px;
+  border-radius: 4px;
+  transition: 0.5s;
+  color: var(--color-white);
+  background: var(--color-primary);
+  font-family: var(--font-secondary);
+  border: none;
+}
+.btn-cta:hover {
+  background: rgba(var(--color-primary-rgb), 0.8);
+  color: var(--color-white);
 }
 .mvs-hover:hover{
   background-color: black;
@@ -2144,6 +2192,8 @@ text-align: center;
 }
 
 .companies .section-header p{
+  color: #fff;
+  text-align: left;
   font-size: 18px;
   font-weight: 600px;
 }
@@ -3602,9 +3652,21 @@ text-align: center;
 # Gallery Section
 --------------------------------------------------------------*/
 .gallery-wrap {
-  padding: 4rem 2rem;
-  max-width: 1100px;
+  padding: 4rem 4rem;
+  max-width: 100%;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .gallery-wrap {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-wrap {
+    padding: 2.5rem 1rem;
+  }
 }
 
 .gallery-header {
@@ -3623,26 +3685,73 @@ text-align: center;
   color: #666;
 }
 
-.gallery-category {
-  margin-bottom: 3rem;
+.gallery-accordion-item {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
-.gallery-category:last-child {
+.gallery-accordion-item:last-child {
   margin-bottom: 0;
 }
 
-.gallery-category-title {
-  font-size: 1.75rem;
-  font-weight: 600;
+.gallery-accordion-heading {
+  margin: 0;
+}
+
+.gallery-accordion-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.5rem;
+  border: none;
+  background: rgb(230, 230, 230);
   color: var(--primary_col);
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.gallery-accordion-button:hover {
+  background: rgb(220, 220, 220);
+}
+
+.gallery-accordion-button:not(.collapsed) {
+  background: var(--primary_col);
+  color: #fff;
+}
+
+.gallery-accordion-button .chevron {
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+
+.gallery-accordion-button:not(.collapsed) .chevron {
+  transform: rotate(180deg);
+}
+
+.gallery-accordion-body {
+  padding: 1.75rem 1.5rem;
+}
+
+.gallery-empty {
+  color: #888;
+  font-size: 15px;
+  margin: 0;
 }
 
 .gallery-grid {
-  columns: 3;
+  columns: 4;
   gap: 12px;
+}
+
+@media (max-width: 1400px) {
+  .gallery-grid { columns: 3; }
 }
 
 @media (max-width: 700px) {
@@ -3923,6 +4032,11 @@ text-align: center;
   }
   .header .logo img{
     max-height: 50px;
+  }
+  .header .logo-tagline {
+    font-size: 14px;
+    white-space: normal;
+    max-width: 160px;
   }
   .service-black .service-location{
     margin-bottom: 5px;

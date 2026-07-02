@@ -107,11 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('gallery-categories')) {
 
     const categoryLabels = {
-      construction: 'Construction',
-      facility: 'Facility Maintenance',
+      'civil-engineering': 'Civil Engineering',
+      'general-build': 'General Build',
+      'hard-fm': 'Hard FM',
+      'soft-fm': 'Soft FM',
     };
 
-    const categoryOrder = ['construction', 'facility'];
+    const categoryOrder = ['civil-engineering', 'general-build', 'hard-fm', 'soft-fm'];
     const container = document.getElementById('gallery-categories');
 
     const lightbox = document.getElementById('lightbox');
@@ -119,37 +121,71 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxCaption = document.getElementById('lightbox-caption');
     const lightboxClose = document.getElementById('lightbox-close');
 
-    fetch('gallery.json')
-      .then(res => res.json())
+    // gallery-scan.php lists whatever photos are currently in each
+    // assets/img/gallery/<category> folder, so newly uploaded photos
+    // show up automatically. Falls back to the static gallery.json
+    // manifest if PHP isn't available (e.g. local static preview).
+    fetch('gallery-scan.php')
+      .then(res => {
+        if (!res.ok) throw new Error('gallery-scan.php unavailable');
+        return res.json();
+      })
+      .catch(() => fetch('gallery.json').then(res => res.json()))
       .then(data => {
-        categoryOrder.forEach(cat => {
-          const files = data[cat];
-          if (!files || !files.length) return;
-
+        categoryOrder.forEach((cat, index) => {
+          const files = data[cat] || [];
           const label = categoryLabels[cat] || cat;
-          const section = document.createElement('section');
-          section.className = 'gallery-category';
-          section.id = `gallery-${cat}`;
+          const isFirst = index === 0;
+
+          const item = document.createElement('div');
+          item.className = 'gallery-accordion-item';
+
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = `gallery-accordion-button${isFirst ? '' : ' collapsed'}`;
+          button.setAttribute('data-bs-toggle', 'collapse');
+          button.setAttribute('data-bs-target', `#gallery-collapse-${cat}`);
+          button.setAttribute('aria-expanded', isFirst ? 'true' : 'false');
+          button.setAttribute('aria-controls', `gallery-collapse-${cat}`);
+          button.innerHTML = `<span>${label}</span><i class="bi bi-chevron-down chevron"></i>`;
 
           const heading = document.createElement('h2');
-          heading.className = 'gallery-category-title';
-          heading.textContent = label;
+          heading.className = 'gallery-accordion-heading';
+          heading.appendChild(button);
 
-          const grid = document.createElement('div');
-          grid.className = 'gallery-grid';
+          const collapse = document.createElement('div');
+          collapse.id = `gallery-collapse-${cat}`;
+          collapse.className = `collapse${isFirst ? ' show' : ''}`;
+          collapse.setAttribute('data-bs-parent', '#gallery-categories');
 
-          files.forEach(filename => {
-            const div = document.createElement('div');
-            div.className = 'gallery-item';
-            div.innerHTML = `
-              <img src="assets/img/gallery/${cat}/${filename}" alt="${label} photo" loading="lazy" />
-            `;
-            grid.appendChild(div);
-          });
+          const body = document.createElement('div');
+          body.className = 'gallery-accordion-body';
 
-          section.appendChild(heading);
-          section.appendChild(grid);
-          container.appendChild(section);
+          if (files.length) {
+            const grid = document.createElement('div');
+            grid.className = 'gallery-grid';
+
+            files.forEach(filename => {
+              const div = document.createElement('div');
+              div.className = 'gallery-item';
+              div.innerHTML = `
+                <img src="assets/img/gallery/${cat}/${filename}" alt="${label} photo" loading="lazy" />
+              `;
+              grid.appendChild(div);
+            });
+
+            body.appendChild(grid);
+          } else {
+            const empty = document.createElement('p');
+            empty.className = 'gallery-empty';
+            empty.textContent = 'Photos coming soon.';
+            body.appendChild(empty);
+          }
+
+          collapse.appendChild(body);
+          item.appendChild(heading);
+          item.appendChild(collapse);
+          container.appendChild(item);
         });
 
         attachLightbox();
@@ -159,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.gallery-item').forEach(item => {
         item.addEventListener('click', () => {
           const img = item.querySelector('img');
-          const categoryTitle = item.closest('.gallery-category')?.querySelector('.gallery-category-title');
+          const categoryTitle = item.closest('.gallery-accordion-item')?.querySelector('.gallery-accordion-button span');
           lightboxImg.src = img.src;
           lightboxImg.alt = img.alt;
           lightboxCaption.textContent = categoryTitle ? categoryTitle.textContent : '';
